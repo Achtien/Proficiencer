@@ -1,0 +1,22 @@
+[project]
+name = "proficiencer"
+version = "0"
+description = ""
+requires-python = ">=3.8"
+authors = [
+	{name = "Achtien", email = "1346551205@qq.com"}
+]
+
+dependencies = [
+
+]
+
+[project.optional-dependencies]
+dev = [
+	"pytest>=8.4.1"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-v"
