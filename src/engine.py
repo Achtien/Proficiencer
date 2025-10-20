@@ -90,8 +90,21 @@ def gaming(parameters, generator):
 		None
 	'''
 	is_quitting = False
+
+	# record progress
+	num_wrong = 0
+	num_total = 0
+	progress_bar = ''
+
 	while not is_quitting:
 		formula, ans = generator(parameters)
+			
+		# progress bar
+		print(f"Total  [{num_total}]\nCorrect[{num_total-num_wrong}]")
+		inp = input(f"[<{progress_bar}>] ")
+		if inp == 'quit':
+			break
+		wrong_once = False
 		
 		while True:
 			print(f"\nCalculate:\n{formula}")
@@ -104,7 +117,23 @@ def gaming(parameters, generator):
 				is_quitting = True
 				break
 			else:
+				if not wrong_once:
+					wrong_once = True
 				print('Try again!')
+
+		if not is_quitting or wrong_once:
+			num_total += 1
+			if wrong_once:
+				num_wrong += 1
+				progress_bar += '*'
+			else:
+				progress_bar += '='
+				
+
+	# print the result
+	if num_total:
+		acu = round(100*(num_total-num_wrong)/num_total, 2)
+		print(f'Total   [{num_total}]\nAccuracy[{acu}]')
 
 	return None
 
