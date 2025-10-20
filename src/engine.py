@@ -18,7 +18,7 @@ def ask_parameter(requirement, prompt):
 		None: get 'quit'
 	'''
 	while True:
-		inp = input(prompt + '\n>>>')
+		inp = input(prompt + '\n>>> ')
 		if inp == 'quit':
 			return None
 		elif requirement(inp):
@@ -53,10 +53,6 @@ def define_parameters(requirements, ask_parameter):
 			}
 	'''
 	parameters = {}
-	# difine a pointer to traverse the requirements to get parameter_valuses.
-	pointer = 0
-	# quit_out will be True if user input 'quit'.
-	quit_out = False
 
 	for pointer in range(len(requirements)):
 		name = requirements[pointer]['name']
@@ -120,7 +116,12 @@ def engine(requirements, generator):
 	Args:
 		requirements: the parameter requiremnt list [{
 			'name': parameter_name_str,
-			'requirement': requirement_function,
+			'requirement': requirement_function
+				args
+					inp: the input
+				returns
+					True: inp is valid
+					False: inp is invalid
 			'prompt': prompt_str_for_valid_value,
 			},{}]
 		generator: a function to generate formula and the answer:
@@ -134,73 +135,7 @@ def engine(requirements, generator):
 		None
 	'''	
 	parameters = define_parameters(requirements, ask_parameter)
-	gaming(parameters, generator)
+	if parameters:
+		gaming(parameters, generator)
 	return None
-
-
-if __name__ == "__main__":
-
-
-	def test_generator(parameters):
-		size = int(parameters['size'])
-		operations = parameters['operations'].split()
-		# all_operations dict [(name_str, calculate_function), ()]
-		all_operations = {
-			'+': lambda a,b:a+b,
-			'-': lambda a,b:a-b,
-			'*': lambda a,b:a*b
-			}
-		random_num = lambda size: np.random.randint(-10**size+1, 10**size)
-		random_ope = lambda operations: operations[np.random.randint(len(operations))]
-
-		a = random_num(size)
-		b = random_num(size)
-		ope = random_ope(operations)
-
-		formula = f'{a} {ope} {b}'
-		ans = str(all_operations[ope](a, b))
-
-
-		return formula, ans
-
-	
-	def size_requirement(inp):
-		try:
-			inp = int(inp)
-			if inp <= 9 and inp >= 0:
-				return True
-		except ValueError:
-			return False
-
-	def operations_requirement(inp):
-		inp = inp.split(' ')
-		all_operations = ['+','-','*']
-		operations = []
-		for ope in inp:
-			if ope in all_operations:
-				operations.append(ope)
-			else:
-				return False
-		
-		if operations:
-			return True
-		else:
-			return False
-
-	
-	test_requirements = [
-		{
-			'name': 'size',
-			'requirement': size_requirement, 
-			'prompt': 'choose a size'
-		},
-		{
-			'name': 'operations',
-			'requirement': operations_requirement,
-			'prompt': 'choose operations(+ - *)'
-		}
-	]
-
-
-	engine(test_requirements, test_generator)
 
