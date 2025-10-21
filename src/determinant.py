@@ -33,6 +33,8 @@ def size_requirement(inp):
 		inp = int(inp)
 		if inp <= 9 and inp >= 2:
 			return True
+		else:
+			return False
 	except ValueError:
 		return False
 

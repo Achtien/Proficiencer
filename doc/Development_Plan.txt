@@ -1,0 +1,29 @@
+# make a simple determinant game
+generate a random determinant and compare input with answer
+(DONE)
+
+# make a fundamental game
+generate a random formula to add, minus or multiply
+(DONE)
+
+# make an engine to simplify development
+engine will do most repeating work in different games
+(DONE)
+
+# run the code as a module
+with pathlib
+
+# resore training data
+with SQLite3
+
+# add a menu to organize all games
+in which user could choose play or do some other thing
+
+# add settings to menu
+in which user could set some thing in engine part
+
+# add records
+record training datas, user could visit them
+
+# add a log-in system
+user could choose log in his/her own account

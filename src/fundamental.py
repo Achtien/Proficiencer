@@ -33,6 +33,8 @@ def size_requirement(inp):
 		inp = int(inp)
 		if inp <= 9 and inp >= 1:
 			return True
+		else:
+			return False
 	except ValueError:
 		return False
 
@@ -51,6 +53,16 @@ def operations_requirement(inp):
 	else:
 		return False
 
+def is_negative_requirement(inp):
+	try:
+		inp = int(inp)
+		if inp == 0 or inp == 1:
+			return True
+		else: 
+			return False
+	except ValueError:
+		return False
+
 
 fundamental_requirements = [
 	{
@@ -62,6 +74,11 @@ fundamental_requirements = [
 		'name': 'operations',
 		'requirement': operations_requirement,
 		'prompt': 'choose operations(+ - *)'
+	},
+	{
+		'name':'is_negative',
+		'requirement': is_negative_requirement,
+		'prompt': 'need negative(1 or 0)?'
 	}
 ]
 
@@ -69,13 +86,18 @@ fundamental_requirements = [
 def fundamental_generator(parameters):
 	size = int(parameters['size'])
 	operations = parameters['operations'].split()
+	is_negative = int(parameters['is_negative'])
 	# all_operations dict [(name_str, calculate_function), ()]
 	all_operations = {
 		'+': lambda a,b:a+b,
 		'-': lambda a,b:a-b,
 		'*': lambda a,b:a*b
 		}
-	random_num = lambda size: np.random.randint(-10**size+1, 10**size)
+	if is_negative:
+		random_num = lambda size: np.random.randint(-10**size+1, 10**size)
+	else:
+		random_num = lambda size: np.random.randint(0,10**size)
+	
 	random_ope = lambda operations: operations[np.random.randint(len(operations))]
 
 	a = random_num(size)
